@@ -1,40 +1,35 @@
 import java.util.List;
 
-public class EmployeeDataAnalyzer {
-    public static void main(String[] args){
-        EmployeeManager employeeManager = new EmployeeManager();
+void main() {
+    EmployeeManager employeeManager = new EmployeeManager();
 
-        //Adding employee data.
-        employeeManager.addEmployee(new Employee(1, "Geek1", "Engineering", 75000.0));
-        employeeManager.addEmployee(new Employee(2, "Geek2", "Marketing", 68000.0));
-        employeeManager.addEmployee(new Employee(3, "Geek3", "Engineering", 80000.0));
-        employeeManager.addEmployee(new Employee(4, "Geek4", "HR", 55000.0));
+    //Loading Employee Data
+    employeeManager.loadDataFromCsv("employees.csv");
 
-        //Simulate multithreading: processing employee by id.
-        Thread processor1 = new EmployeeProcessor(employeeManager, 1);
-        Thread processor2 = new EmployeeProcessor(employeeManager, 2);
-        Thread processor3 = new EmployeeProcessor(employeeManager, 5);
+    //Simulate multithreading: processing employee by id.
+    Thread processor1 = new EmployeeProcessor(employeeManager, 1);
+    Thread processor2 = new EmployeeProcessor(employeeManager, 2);
+    Thread processor3 = new EmployeeProcessor(employeeManager, 5);
 
-        processor1.start();
-        processor2.start();
-        processor3.start();
+    processor1.start();
+    processor2.start();
+    processor3.start();
 
-        try{
-            processor1.join();
-            processor2.join();
-            processor3.join();
-        }catch (InterruptedException e){
-            System.out.println("Error waiting for thread completion: "+ e.getMessage());
-        }
-
-        //filtering employees by salary.
-        System.out.println("\nEmployees with salary >= 70000");
-        List<Employee> highEarners = employeeManager.filterEmployeesBySalary(70000.0);
-        highEarners.forEach(System.out::println);
-
-        //sorted employee by
-        System.out.println("\nEmployees sorted by salary:");
-        List<Employee> sortedEmployees = employeeManager.sortEmployeesBySalary();
-        sortedEmployees.forEach(System.out::println);
+    try {
+        processor1.join();
+        processor2.join();
+        processor3.join();
+    } catch (InterruptedException e) {
+        IO.println("Error waiting for thread completion: " + e.getMessage());
     }
+
+    //filtering employees by salary.
+    IO.println("\nEmployees with salary >= 70000");
+    List<Employee> highEarners = employeeManager.filterEmployeesBySalary(70000.0);
+    highEarners.forEach(System.out::println);
+
+    //sorted employee by
+    IO.println("\nEmployees sorted by salary:");
+    List<Employee> sortedEmployees = employeeManager.sortEmployeesBySalary();
+    sortedEmployees.forEach(System.out::println);
 }

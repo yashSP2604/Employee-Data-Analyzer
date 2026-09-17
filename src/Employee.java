@@ -6,10 +6,10 @@ public class Employee {
     private String department;
     private Double salary;
 
-    public Employee(int id, String name, String deparment, Double salary){
+    public Employee(int id, String name, String department, Double salary){
         this.id = id;
         this.name = name;
-        this.department = deparment;
+        this.department = department;
         this.salary = salary;
     }
 
