@@ -32,4 +32,23 @@ void main() {
     IO.println("\nEmployees sorted by salary:");
     List<Employee> sortedEmployees = employeeManager.sortEmployeesBySalary();
     sortedEmployees.forEach(System.out::println);
+
+
+    //Advanced Analytics
+    System.out.println("\n ----Advanced Business Analytics----");
+
+    System.out.printf("Average Company Salary: $%.2f%n", employeeManager.calAvgSalary());
+
+    System.out.println("\nEmployees grouped by Department: ");
+    Map<String, List<Employee>> grpByDept = employeeManager.groupEmpByDept();
+    grpByDept.forEach((department, empList) ->{
+        System.out.println(department+":");
+        empList.forEach(emp ->System.out.println(" -"+ emp.getName()));
+    });
+
+    System.out.println("\nHighest Paid Employee per Department:");
+    Map<String, Optional<Employee>> highestPaid = employeeManager.getHighestPaidByDept();
+    highestPaid.forEach((department, empOpt) -> empOpt.ifPresent(emp ->
+            System.out.println(department + ": " + emp.getName() + "($"+ emp.getSalary().orElse(0.0) + ")" )
+    ));
 }

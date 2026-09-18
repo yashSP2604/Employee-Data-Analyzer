@@ -58,4 +58,22 @@ public class EmployeeManager {
                 .sorted(Comparator.comparingDouble(e -> e.getSalary().orElse(0.0)))
                 .collect(Collectors.toList());
     }
+
+    public double calAvgSalary() {
+        return employeeData.values().stream()
+                .mapToDouble(e -> e.getSalary().orElse(0.0))
+                .average()
+                .orElse(0.0);
+    }
+
+    public Map<String, List<Employee>> groupEmpByDept(){
+        return employeeData.values().stream()
+                .collect(Collectors.groupingBy(Employee::getDepartment));
+    }
+
+    public Map<String, Optional<Employee>> getHighestPaidByDept(){
+        return employeeData.values().stream()
+                .collect(Collectors.groupingBy(Employee::getDepartment,
+                        Collectors.maxBy(Comparator.comparingDouble(e -> e.getSalary().orElse(0.0)))));
+    }
 }
