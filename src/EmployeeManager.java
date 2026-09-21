@@ -3,19 +3,26 @@ import java.util.stream.Collectors;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.io.IOException;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 public class EmployeeManager {
+    private static final Logger logger = Logger.getLogger(EmployeeManager.class.getName());
     private Map<Integer, Employee> employeeData;
 
     public EmployeeManager(){
-        this.employeeData = new HashMap<>();
+
+        this.employeeData = new ConcurrentHashMap<>();
     }
 
     public void addEmployee(Employee employee){
+
         employeeData.put(employee.getId(), employee);
     }
 
     public Optional<Employee> getEmployeeById(int id){
+
         return Optional.ofNullable(employeeData.get(id));
     }
 
@@ -35,15 +42,16 @@ public class EmployeeManager {
                     addEmployee(new Employee(id,name,department,salary));
                 }
             }
-            System.out.println("Successfully loaded data from "+ filePath);
+            logger.info("Successfully loaded data from "+ filePath);
         }catch (IOException e){
-            System.out.println("Error reading the file: "+e.getMessage());
+            logger.log(Level.SEVERE, "Error reading the file: ",e);
         }catch (NumberFormatException e){
-            System.out.println("Error parsing number from CSV: "+ e.getMessage());
+            logger.log(Level.SEVERE,"Error parsing number from CSV: ", e);
         }
     }
 
     public List<Employee> getAllEmployee(){
+
         return new ArrayList<>(employeeData.values());
     }
 

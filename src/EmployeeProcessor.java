@@ -1,6 +1,6 @@
 import java.util.Optional;
 
-public class EmployeeProcessor extends Thread {
+public class EmployeeProcessor implements Runnable {
     private EmployeeManager employeeManager;
     private int employeeId;
 
